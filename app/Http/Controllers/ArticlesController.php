@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Article;
+use Carbon\Carbon;
 
 class ArticlesController extends Controller
 {
     public function index() {
-        $articles = Article::all();
+        // $articles = Article::all();
+        // $article = Article::orderBy('published_at','desc')->orderBy('created_at','decs')->get();
+        $article = Article::latest('published_at')->latest('created_at')
+                 ->published()
+                 ->get();
         return view('articles.index',compact('articles'));
     }
 
