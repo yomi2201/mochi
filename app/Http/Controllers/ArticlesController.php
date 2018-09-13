@@ -13,7 +13,7 @@ class ArticlesController extends Controller
     }
 
     public function create(){
-        return view('article.create');
+        return view('articles.create');
     }
 
     public function show($id) {
@@ -26,7 +26,11 @@ class ArticlesController extends Controller
         $inputs = \Request::all();
  
         // ② デバッグ： $inputs の内容確認
-        dd($inputs);
+        // dd($inputs);
+        Article::create($inputs);
+        // ② 記事一覧へリダイレクト
+        return redirect('/');
+        //url CHOISE
     }
 
     // public function edit($id) {
