@@ -21,25 +21,17 @@ class ArticlesController extends Controller
         return view('articles.show',compact('article'));
     }
 
-    public function store() {
-        // ① フォームの入力値を取得
-        $inputs = \Request::all();
+    public function store(Request $request) {  // ①
+        $rules = [    // ②
+            'title' => 'required|min:3',
+            'body' => 'required',
+            'published_at' => 'required|date',
+        ];
+        $validated = $this->validate($request, $rules);  // ③
  
-        // ② デバッグ： $inputs の内容確認
-        // dd($inputs);
-        Article::create($inputs);
-        // ② 記事一覧へリダイレクト
+        Article::create($validated);
+ 
         return redirect('/');
-        //url CHOISE
     }
 
-    // public function edit($id) {
-    //     $article = Article::findOrfail($id);
-    //     return view('articles.show',compact('article'));
-    // }
-
-    // public function delete($id) {
-    //     $article = Article::findOrfail($id);
-    //     return view('articles.show',compact('article'));
-    // }
 }
