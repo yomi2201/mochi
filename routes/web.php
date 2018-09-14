@@ -15,11 +15,13 @@
 //     return view('welcome');
 // });
 
-// Route::get('/'      , 'WelcomeController@index');
+Route::get('/'      , 'WelcomeController@index');
 Route::get('contact', 'PagesController@contact');
 Route::get('about'  , 'PagesController@about');
 
-Route::get('/'       ,'ArticlesController@index');
+Route::get('articles'       ,'ArticlesController@index');
 Route::get('articles/create','ArticlesController@create');
 Route::get('articles/{id}'  ,'ArticlesController@show');
 Route::post('articles'      , 'ArticlesController@store');
+Route::get('articles/{id}/edit','ArticlesController@edit');
+Route::patch('articles/{id}','ArticlesController@update');

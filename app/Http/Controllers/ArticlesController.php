@@ -10,7 +10,7 @@ class ArticlesController extends Controller
     public function index() {
         // $articles = Article::all();
         // $article = Article::orderBy('published_at','desc')->orderBy('created_at','decs')->get();
-        $article = Article::latest('published_at')->latest('created_at')
+        $articles = Article::latest('published_at')->latest('created_at')
                  ->published()
                  ->get();
         return view('articles.index',compact('articles'));
@@ -25,17 +25,28 @@ class ArticlesController extends Controller
         return view('articles.show',compact('article'));
     }
 
-    public function store(Request $request) {  // ①
-        $rules = [    // ②
+    public function store(Request $request) {
+        $rules = [
             'title' => 'required|min:3',
             'body' => 'required',
             'published_at' => 'required|date',
         ];
-        $validated = $this->validate($request, $rules);  // ③
+        $validated = $this->validate($request, $rules);
  
         Article::create($validated);
  
-        return redirect('/');
+        return redirect('articles');
+    }
+
+    public function edit($id){
+        $article = Article::findOrFail($id);
+        return view('articles.edit',compact('article'));
+    }
+
+    public function update(ArticleRequest $request,$id){
+        $article = Article::findOrFail($id);
+        $article ->update($request->validated());
+        return redirect(url('articles',[$article->id]));
     }
 
 }
